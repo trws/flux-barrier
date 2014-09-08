@@ -1,0 +1,1 @@
+SUBDIRS = common modules cmd

@@ -44,8 +44,8 @@
 #include <sys/time.h>
 #include <zmq.h>
 #include <czmq.h>
-#include <json/json.h>
-#include <flux/flux.h>
+#include <json.h>
+#include <flux.h>
 
 #include "log.h"
 #include "xzmalloc.h"

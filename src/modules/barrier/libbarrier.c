@@ -42,9 +42,9 @@
 #include <sys/socket.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include <json/json.h>
+#include <json.h>
 #include <czmq.h>
-#include <flux/flux.h>
+#include <flux.h>
 
 #include "jsonutil.h"
 

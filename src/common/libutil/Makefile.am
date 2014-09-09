@@ -1,6 +1,6 @@
 AM_CFLAGS = @GCCWARN@
 
-AM_CPPFLAGS =
+AM_CPPFLAGS = $(JSON_CFLAGS)
 
 noinst_LTLIBRARIES = libutil.la
 

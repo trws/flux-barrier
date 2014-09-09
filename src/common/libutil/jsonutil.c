@@ -31,7 +31,7 @@
 #include <string.h>
 #include <time.h>
 #include <sys/resource.h>
-#include <json/json.h>
+#include <json.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <sys/types.h>

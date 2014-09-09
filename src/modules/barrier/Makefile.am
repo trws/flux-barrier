@@ -1,5 +1,5 @@
 AM_CPPFLAGS = \
-	$(FLUX_CFLAGS) \
+	$(FLUX_CFLAGS) $(JSON_CFLAGS) \
 	-I $(top_srcdir)/src/common/libutil
 
 libfluxdir = $(libdir)/flux
@@ -13,7 +13,7 @@ fluxmod_LTLIBRARIES = barrier.la
 
 fluxmod_libadd = \
 	$(top_builddir)/src/common/libutil/libutil.la \
-	$(FLUX_LIBS) $(LIBJSON) $(LIBZMQ) $(LIBCZMQ)
+	$(FLUX_LIBS) $(JSON_LIBS) $(LIBZMQ) $(LIBCZMQ)
 
 fluxmod_ldflags = \
 	-module -avoid-version -Wl,--version-script=$(srcdir)/../version.map
@@ -36,7 +36,7 @@ libflux_barrier_la_SOURCES = \
 
 libflux_barrier_la_LIBADD = \
 	$(top_builddir)/src/common/libutil/libutil.la \
-	$(FLUX_LIBS) $(LIBJSON) $(LIBZMQ) $(LIBCZMQ)
+	$(FLUX_LIBS) $(JSON_LIBS) $(LIBZMQ) $(LIBCZMQ)
 
 libflux_barrier_la_LDFLAGS = -Wl,--version-script=$(srcdir)/version.map
 

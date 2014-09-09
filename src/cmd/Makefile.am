@@ -14,7 +14,7 @@ fluxbin_ldadd = \
 	$(FLUX_LIBS) \
 	$(top_builddir)/src/common/libutil/libutil.la \
 	$(top_builddir)/src/modules/barrier/libflux-barrier.la \
-	$(JSON_LIBS) $(LIBZMQ) $(LIBCZMQ) $(LIBPTHREAD)
+	$(JSON_LIBS) 
 
 barrier_SOURCES = barrier.c
 barrier_LDADD = $(fluxbin_ldadd)

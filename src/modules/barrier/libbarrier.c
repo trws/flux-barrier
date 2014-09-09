@@ -44,7 +44,7 @@
 #include <stdarg.h>
 #include <json.h>
 #include <czmq.h>
-#include <flux.h>
+#include <flux/core.h>
 
 #include "jsonutil.h"
 

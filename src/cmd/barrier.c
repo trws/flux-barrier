@@ -32,7 +32,7 @@
 #include <assert.h>
 #include <libgen.h>
 #include <czmq.h>
-#include <flux.h>
+#include <flux/core.h>
 
 #include "log.h"
 #include "monotime.h"

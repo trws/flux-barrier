@@ -45,7 +45,7 @@
 #include <zmq.h>
 #include <czmq.h>
 #include <json.h>
-#include <flux.h>
+#include <flux/core.h>
 
 #include "log.h"
 #include "xzmalloc.h"

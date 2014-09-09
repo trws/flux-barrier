@@ -1,3 +1,5 @@
+AM_CFLAGS = @GCCWARN@
+
 AM_CPPFLAGS = \
 	$(FLUX_CFLAGS) $(JSON_CFLAGS) \
 	-I $(top_srcdir)/src/common/libutil
@@ -15,8 +17,8 @@ fluxmod_libadd = \
 	$(top_builddir)/src/common/libutil/libutil.la \
 	$(FLUX_LIBS) $(JSON_LIBS) $(LIBZMQ) $(LIBCZMQ)
 
-fluxmod_ldflags = \
-	-module -avoid-version -Wl,--version-script=$(srcdir)/../version.map
+fluxmod_ldflags = -avoid-version -module -shared -export-dynamic \
+        -export-symbols-regex '^mod_(main|name)$$'
 
 barrier_la_SOURCES = barrier.c
 barrier_la_LDFLAGS = $(fluxmod_ldflags)

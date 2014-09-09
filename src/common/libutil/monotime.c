@@ -22,56 +22,45 @@
  *  See also:  http://www.gnu.org/licenses/
 \*****************************************************************************/
 
-/* barriercli.c - barrier client code */
-
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif
-#include <stdio.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <getopt.h>
-#include <libgen.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/param.h>
+#include <time.h>
 #include <stdbool.h>
-#include <sys/un.h>
-#include <sys/socket.h>
-#include <ctype.h>
-#include <stdarg.h>
-#include <json/json.h>
-#include <czmq.h>
-#include <flux/flux.h>
 
-#include "jsonutil.h"
+#include "monotime.h"
 
-int flux_barrier (flux_t h, const char *name, int nprocs)
+static struct timespec ts_diff (struct timespec start, struct timespec end)
 {
-    json_object *request = util_json_object_new_object ();
-    json_object *reply = NULL;
-    int ret = -1;
+        struct timespec temp;
+        if ((end.tv_nsec-start.tv_nsec)<0) {
+                temp.tv_sec = end.tv_sec-start.tv_sec-1;
+                temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+        } else {
+                temp.tv_sec = end.tv_sec-start.tv_sec;
+                temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+        }
+        return temp;
+}
 
-    util_json_object_add_string (request, "name", name);
-    util_json_object_add_int (request, "count", 1);
-    util_json_object_add_int (request, "nprocs", nprocs);
+double monotime_since (struct timespec t0)
+{
+    struct timespec ts, d;
+    clock_gettime (CLOCK_MONOTONIC, &ts);
 
-    reply = flux_rpc (h, request, "barrier.enter");
-    if (!reply && errno > 0)
-        goto done;
-    if (reply) {
-        errno = EPROTO;
-        goto done;
-    }
-    ret = 0;
-done:
-    if (request)
-        json_object_put (request);
-    if (reply)
-        json_object_put (reply);
-    return ret;
+    d = ts_diff (t0, ts);
+
+    return ((double) d.tv_sec * 1000 + (double) d.tv_nsec / 1000000);
+}
+
+void monotime (struct timespec *tp)
+{
+    clock_gettime (CLOCK_MONOTONIC, tp);
+}
+
+bool monotime_isset (struct timespec t)
+{
+    return (t.tv_sec || t.tv_nsec);
 }
 
 /*

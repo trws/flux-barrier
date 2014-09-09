@@ -10,4 +10,6 @@ libutil_la_SOURCES = \
 	xzmalloc.c \
 	xzmalloc.h \
 	jsonutil.c \
-	jsonutil.h
+	jsonutil.h \
+	monotime.c \
+	monotime.h

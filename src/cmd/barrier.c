@@ -1,14 +1,43 @@
+/*****************************************************************************\
+ *  Copyright (c) 2014 Lawrence Livermore National Security, LLC.  Produced at
+ *  the Lawrence Livermore National Laboratory (cf, AUTHORS, DISCLAIMER.LLNS).
+ *  LLNL-CODE-658032 All rights reserved.
+ *
+ *  This file is part of the Flux resource manager framework.
+ *  For details, see https://github.com/flux-framework.
+ *
+ *  This program is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by the Free
+ *  Software Foundation; either version 2 of the license, or (at your option)
+ *  any later version.
+ *
+ *  Flux is distributed in the hope that it will be useful, but WITHOUT
+ *  ANY WARRANTY; without even the IMPLIED WARRANTY OF MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE.  See the terms and conditions of the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+ *  See also:  http://www.gnu.org/licenses/
+\*****************************************************************************/
+
 /* flux-barrier.c - flux barrier subcommand */
 
-#define _GNU_SOURCE
+#if HAVE_CONFIG_H
+#include "config.h"
+#endif
 #include <getopt.h>
 #include <json/json.h>
 #include <assert.h>
 #include <libgen.h>
+#include <czmq.h>
+#include <flux.h>
 
-#include "cmb.h"
-#include "util.h"
 #include "log.h"
+#include "monotime.h"
+
+#include "barrier.h"
 
 #define OPTIONS "hn:t:"
 static const struct option longopts[] = {
@@ -58,8 +87,8 @@ int main (int argc, char *argv[])
         usage ();
     name = argv[optind];
 
-    if (!(h = cmb_init ()))
-        err_exit ("cmb_init");
+    if (!(h = flux_api_open ()))
+        err_exit ("flux_api_open");
 
     for (i = 0; i < iter; i++) {
         monotime (&t0);
@@ -71,7 +100,7 @@ int main (int argc, char *argv[])
         free (tname);
     }
 
-    flux_handle_destroy (&h);
+    flux_api_close (h);
     log_fini ();
     return 0;
 }

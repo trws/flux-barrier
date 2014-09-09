@@ -1,6 +1,32 @@
+/*****************************************************************************\
+ *  Copyright (c) 2014 Lawrence Livermore National Security, LLC.  Produced at
+ *  the Lawrence Livermore National Laboratory (cf, AUTHORS, DISCLAIMER.LLNS).
+ *  LLNL-CODE-658032 All rights reserved.
+ *
+ *  This file is part of the Flux resource manager framework.
+ *  For details, see https://github.com/flux-framework.
+ *
+ *  This program is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License as published by the Free
+ *  Software Foundation; either version 2 of the license, or (at your option)
+ *  any later version.
+ *
+ *  Flux is distributed in the hope that it will be useful, but WITHOUT
+ *  ANY WARRANTY; without even the IMPLIED WARRANTY OF MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE.  See the terms and conditions of the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+ *  See also:  http://www.gnu.org/licenses/
+\*****************************************************************************/
+
 /* barriersrv.c - implement barriers of arbitrary membership */
 
-#define _GNU_SOURCE
+#if HAVE_CONFIG_H
+#include "config.h"
+#endif
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -20,6 +46,10 @@
 #include <czmq.h>
 #include <json/json.h>
 #include <flux/flux.h>
+
+#include "log.h"
+#include "xzmalloc.h"
+#include "jsonutil.h"
 
 const int barrier_reduction_timeout_msec = 1;
 
@@ -150,8 +180,8 @@ static int enter_request_cb (flux_t h, int typemask, zmsg_t **zmsg, void *arg)
     const char *name;
     int count, nprocs, hopcount;
 
-    if (cmb_msg_decode (*zmsg, NULL, &o) < 0 || o == NULL
-     || !(sender = cmb_msg_sender (*zmsg))
+    if (flux_msg_decode (*zmsg, NULL, &o) < 0 || o == NULL
+     || !(sender = flux_msg_sender (*zmsg))
      || util_json_object_get_string (o, "name", &name) < 0
      || util_json_object_get_int (o, "count", &count) < 0
      || util_json_object_get_int (o, "nprocs", &nprocs) < 0) {
@@ -226,7 +256,7 @@ static int disconnect_request_cb (flux_t h, int typemask, zmsg_t **zmsg,
                                   void *arg)
 {
     ctx_t *ctx = arg;
-    char *sender = cmb_msg_sender (*zmsg);
+    char *sender = flux_msg_sender (*zmsg);
 
     if (sender) {
         zhash_foreach (ctx->barriers, disconnect, sender);
@@ -268,7 +298,7 @@ static int exit_event_cb (flux_t h, int typemask, zmsg_t **zmsg, void *arg)
     const char *name;
     int errnum;
 
-    if (cmb_msg_decode (*zmsg, NULL, &o) < 0 || o == NULL
+    if (flux_msg_decode (*zmsg, NULL, &o) < 0 || o == NULL
             || util_json_object_get_string (o, "name", &name) < 0
             || util_json_object_get_int (o, "errnum", &errnum) < 0) {
         flux_log (h, LOG_ERR, "%s: bad message", __FUNCTION__);

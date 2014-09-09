@@ -40,14 +40,6 @@ AC_CHECK_HEADERS( \
   pthread.h \
   getopt.h \
 )
-# czmq headers might be in /usr/include/czmq subdir, or not
-AC_CHECK_HEADERS( \
-  czmq.h \
-  czmq/czmq.h \
-)
-AC_CHECK_HEADERS( \
-  slurm/pmi.h \
-)
 
 ##
 # Checks for typedefs, structures, and compiler characteristics
@@ -64,19 +56,9 @@ AC_CHECK_FUNCS( \
   vsscanf \
 )
 X_AC_CHECK_PTHREADS
-X_AC_CHECK_COND_LIB(munge, munge_ctx_create)
 X_AC_CHECK_COND_LIB(json, json_object_get)
-X_AC_CHECK_COND_LIB(util, forkpty)
-X_AC_CHECK_COND_LIB(rt, clock_gettime)
-AX_LUA_HEADERS
-AX_LUA_HEADERS(501)
-AX_LUA_LIBS
 X_AC_ZEROMQ
-
-##
-# For list.c, hostlist.c, hash.c
-##
-AC_DEFINE(WITH_PTHREADS, 1, [Make liblsd thread safe])
+PKG_CHECK_MODULES(FLUX, libflux)
 
 AC_SYS_LARGEFILE
 
@@ -85,21 +67,13 @@ AC_SYS_LARGEFILE
 ##
 AC_CONFIG_FILES( \
   Makefile \
-  flux-core.spec \
+  flux-barrier.spec \
   src/Makefile \
   src/common/Makefile \
-  src/common/liblsd/Makefile \
   src/common/libutil/Makefile \
-  src/common/libzio/Makefile \
-  src/lib/Makefile \
-  src/lib/libflux/Makefile \
-  src/broker/Makefile \
   src/cmd/Makefile \
   src/modules/Makefile \
-  src/modules/api/Makefile \
-  src/modules/kvs/Makefile \
-  src/modules/modctl/Makefile \
-  src/modules/live/Makefile \
+  src/modules/barrier/Makefile \
 )
 
 AC_OUTPUT

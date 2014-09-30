@@ -30,7 +30,6 @@ if test "$GCC" = yes; then
 fi
 AC_PROG_RANLIB
 AC_PROG_LIBTOOL
-AC_LIB_LTDL
 
 ##
 # Checks for header files.

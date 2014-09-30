@@ -7,6 +7,7 @@ AC_DEFUN([X_AC_FLUX_CORE], [
         PKG_CONFIG_PATH=$with_flux_core/lib/pkgconfig/
         export PKG_CONFIG_PATH
     fi
-    PKG_CHECK_MODULES(FLUX, flux-core)
+    PKG_CHECK_MODULES(FLUX, flux-core, [],
+      [AC_MSG_ERROR([Could not find flux-core, use --with-flux-core=PREFIX])])
   ]
 )

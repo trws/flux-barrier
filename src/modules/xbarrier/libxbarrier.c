@@ -46,7 +46,7 @@
 #include <czmq.h>
 #include <flux/core.h>
 
-#include "jsonutil.h"
+#include "src/common/libutil/jsonutil.h"
 
 #include "xbarrier.h"
 

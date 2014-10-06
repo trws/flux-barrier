@@ -32,8 +32,8 @@
 #include <czmq.h>
 #include <flux/core.h>
 
-#include "log.h"
-#include "monotime.h"
+#include "src/common/libutil/log.h"
+#include "src/common/libutil/monotime.h"
 
 #include "xbarrier.h"
 

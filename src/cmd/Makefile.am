@@ -4,7 +4,7 @@ fluxbindir = $(libexecdir)/flux
 
 AM_CPPFLAGS = \
 	$(FLUX_CFLAGS) $(JSON_CFLAGS) \
-	-I$(top_srcdir)/src/common/libutil \
+	-I$(top_srcdir) \
 	-I$(top_srcdir)/src/modules/xbarrier
 
 fluxbin_PROGRAMS = \

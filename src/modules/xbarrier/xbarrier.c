@@ -47,9 +47,9 @@
 #include <json.h>
 #include <flux/core.h>
 
-#include "log.h"
-#include "xzmalloc.h"
-#include "jsonutil.h"
+#include "src/common/libutil/log.h"
+#include "src/common/libutil/xzmalloc.h"
+#include "src/common/libutil/jsonutil.h"
 
 const int barrier_reduction_timeout_msec = 1;
 

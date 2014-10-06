@@ -339,7 +339,7 @@ int mod_main (flux_t h, zhash_t *args)
 {
     ctx_t *ctx = getctx (h);
 
-    if (flux_event_subscribe (h, "barrier.") < 0) {
+    if (flux_event_subscribe (h, "xbarrier.") < 0) {
         err ("%s: flux_event_subscribe", __FUNCTION__);
         return -1;
     }

@@ -30,6 +30,10 @@ if test "$GCC" = yes; then
 fi
 AC_PROG_RANLIB
 AC_PROG_LIBTOOL
+AC_CHECK_PROG(A2X,[a2x],[a2x])
+if test "$A2X" != "a2x"; then
+  AC_MSG_ERROR([Please install asciidoc to get a2x utility.])
+fi
 
 ##
 # Checks for header files.
@@ -73,6 +77,8 @@ AC_CONFIG_FILES( \
   src/cmd/Makefile \
   src/modules/Makefile \
   src/modules/xbarrier/Makefile \
+  doc/Makefile \
+  doc/man1/Makefile \
 )
 
 AC_OUTPUT

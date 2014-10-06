@@ -72,7 +72,7 @@ AC_CONFIG_FILES( \
   src/common/libutil/Makefile \
   src/cmd/Makefile \
   src/modules/Makefile \
-  src/modules/barrier/Makefile \
+  src/modules/xbarrier/Makefile \
 )
 
 AC_OUTPUT

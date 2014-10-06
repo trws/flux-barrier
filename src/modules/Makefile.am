@@ -1,1 +1,1 @@
-SUBDIRS = barrier
+SUBDIRS = xbarrier

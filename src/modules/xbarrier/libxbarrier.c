@@ -48,7 +48,9 @@
 
 #include "jsonutil.h"
 
-int flux_barrier (flux_t h, const char *name, int nprocs)
+#include "xbarrier.h"
+
+int flux_xbarrier (flux_t h, const char *name, int nprocs)
 {
     json_object *request = util_json_object_new_object ();
     json_object *reply = NULL;
@@ -58,7 +60,7 @@ int flux_barrier (flux_t h, const char *name, int nprocs)
     util_json_object_add_int (request, "count", 1);
     util_json_object_add_int (request, "nprocs", nprocs);
 
-    reply = flux_rpc (h, request, "barrier.enter");
+    reply = flux_rpc (h, request, "xbarrier.enter");
     if (!reply && errno > 0)
         goto done;
     if (reply) {

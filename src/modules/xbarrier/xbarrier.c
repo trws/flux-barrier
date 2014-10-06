@@ -145,7 +145,7 @@ static void send_enter_request (ctx_t *ctx, barrier_t *b)
     util_json_object_add_int (o, "count", b->count);
     util_json_object_add_int (o, "nprocs", b->nprocs);
     util_json_object_add_int (o, "hopcount", 1);
-    flux_request_send (ctx->h, o, "barrier.enter");
+    flux_request_send (ctx->h, o, "xbarrier.enter");
     json_object_put (o);
 }
 
@@ -285,7 +285,7 @@ static int exit_event_send (flux_t h, const char *name, int errnum)
 
     util_json_object_add_string (o, "name", name);
     util_json_object_add_int (o, "errnum", errnum);
-    rc = flux_event_send (h, o, "barrier.exit");
+    rc = flux_event_send (h, o, "xbarrier.exit");
     json_object_put (o);
     return rc;
 }
@@ -329,9 +329,9 @@ static int timeout_cb (flux_t h, void *arg)
 }
 
 static msghandler_t htab[] = {
-    { FLUX_MSGTYPE_REQUEST,     "barrier.enter",       enter_request_cb },
-    { FLUX_MSGTYPE_REQUEST,     "barrier.disconnect",  disconnect_request_cb },
-    { FLUX_MSGTYPE_EVENT,       "barrier.exit",        exit_event_cb },
+    { FLUX_MSGTYPE_REQUEST,     "xbarrier.enter",       enter_request_cb },
+    { FLUX_MSGTYPE_REQUEST,     "xbarrier.disconnect",  disconnect_request_cb },
+    { FLUX_MSGTYPE_EVENT,       "xbarrier.exit",        exit_event_cb },
 };
 const int htablen = sizeof (htab) / sizeof (htab[0]);
 
@@ -354,7 +354,7 @@ int mod_main (flux_t h, zhash_t *args)
     return 0;
 }
 
-MOD_NAME ("barrier");
+MOD_NAME ("xbarrier");
 
 /*
  * vi:tabstop=4 shiftwidth=4 expandtab

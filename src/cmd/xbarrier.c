@@ -22,8 +22,6 @@
  *  See also:  http://www.gnu.org/licenses/
 \*****************************************************************************/
 
-/* flux-barrier.c - flux barrier subcommand */
-
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -37,7 +35,7 @@
 #include "log.h"
 #include "monotime.h"
 
-#include "barrier.h"
+#include "xbarrier.h"
 
 #define OPTIONS "hn:t:"
 static const struct option longopts[] = {
@@ -50,7 +48,7 @@ static const struct option longopts[] = {
 void usage (void)
 {
     fprintf (stderr, 
-"Usage: flux-barrier [--nprocs N] [--test-iterations N] name\n"
+"Usage: flux-xbarrier [--nprocs N] [--test-iterations N] name\n"
 );
     exit (1);
 }
@@ -65,7 +63,7 @@ int main (int argc, char *argv[])
     int iter = 1;
     int i;
 
-    log_init ("flux-barrier");
+    log_init ("flux-xbarrier");
 
     while ((ch = getopt_long (argc, argv, OPTIONS, longopts, NULL)) != -1) {
         switch (ch) {
@@ -93,9 +91,9 @@ int main (int argc, char *argv[])
     for (i = 0; i < iter; i++) {
         monotime (&t0);
         asprintf (&tname, "%s.%d", name, i);
-        if (flux_barrier (h, tname, nprocs) < 0)
-            err_exit ("flux_barrier");
-        printf ("barrier name=%s nprocs=%d time=%0.3f ms\n",
+        if (flux_xbarrier (h, tname, nprocs) < 0)
+            err_exit ("flux_xbarrier");
+        printf ("xbarrier name=%s nprocs=%d time=%0.3f ms\n",
              tname, nprocs, monotime_since (t0));
         free (tname);
     }

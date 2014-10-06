@@ -1,0 +1,50 @@
+FLUX-UP(1)
+==========
+:doctype: manpage
+
+
+NAME
+----
+flux-xbarrier - test driver for xbarrier module
+
+
+SYNOPSIS
+--------
+*flux-xbarier* ['--nprocs N'] [--test-iterations N'] 'name'
+
+
+DESCRIPTION
+-----------
+flux-xbarrier(1) sets up a barrier with the 'xbarrier' module.
+'N' tasks are expected to enter the barrier, thus 'N' instances
+of *flux-xbarrier* should be started with identical arguments.
+The command blocks until the barrier is entered by all tasks.
+
+The 'name' of the barrier must be unique across the comms session.
+
+OPTIONS
+-------
+*-n, --nprocs*='N'::
+Set the number of tasks that must enter the barrier before it will exit.
+
+*-t, --test-iterations*='N'::
+Run 'N' iterations of the barrier as a test.
+
+AUTHOR
+------
+This page is maintained by the Flux community.
+
+
+RESOURCES
+---------
+Github: <http://github.com/flux-framework>
+
+
+COPYRIGHT
+---------
+include::COPYRIGHT.adoc[]
+
+
+SEE ALSO
+--------
+flux-topo(1)

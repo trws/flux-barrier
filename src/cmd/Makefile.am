@@ -8,7 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/modules/xbarrier
 
 fluxbin_PROGRAMS = \
-	xbarrier
+	flux-xbarrier
 
 fluxbin_ldadd = \
 	$(FLUX_LIBS) \
@@ -16,5 +16,5 @@ fluxbin_ldadd = \
 	$(top_builddir)/src/modules/xbarrier/libflux-xbarrier.la \
 	$(JSON_LIBS) 
 
-xbarrier_SOURCES = xbarrier.c
-xbarrier_LDADD = $(fluxbin_ldadd)
+flux_xbarrier_SOURCES = flux-xbarrier.c
+flux_xbarrier_LDADD = $(fluxbin_ldadd)

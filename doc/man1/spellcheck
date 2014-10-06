@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if test $man_dir; then
+    set ${man_dir}/*.[1-9]
+fi
+
+if test $# == 0; then
+    echo "Usage: spellcheck file [file...]" >&2
+    exit 1
+fi
+
+dict=${pws_dict:-./spell.en.pws}
+if ! test -r $dict; then
+   echo Dictionary $dict not found >&2
+   exit 1
+fi
+
+exit_val=0
+for f in $*; do
+    tmpfile=$(mktemp)
+    rc=$(cat $f | aspell -p $dict -n list | sort | uniq | tee $tmpfile | wc -l)
+    test $rc == 0 || exit_val=$rc
+    cat $tmpfile | sed -e "s!^!$(basename $f): !"
+    rm -f $tmpfile
+done
+exit $exit_val

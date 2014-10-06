@@ -1,0 +1,7 @@
+#
+# flux.conf - used for in-tree tests
+#
+general
+    exec_path = @abs_top_builddir@/src/cmd:@abs_top_srcdir@/src/cmd
+    module_path = @abs_top_builddir@/src/modules/xbarrier/.libs
+    man_path = @abs_top_builddir@/doc
